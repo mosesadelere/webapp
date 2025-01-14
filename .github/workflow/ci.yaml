@@ -1,0 +1,32 @@
+---
+
+name: Safe Vote Pipeline
+
+on:
+ push:
+  branches:
+   - main
+ pull_request:
+  branches:
+   - main
+
+jobs:
+ build:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout code from bitbucket
+      uses: actions/checjout@v2
+    - name: Set Short SHA
+      run: |
+        echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
+    - name:  Build Docker Image
+      run: |
+        docker build -t mosesade/webapp-safe-vote:${{ env.SHORT_SHA }} .
+    - name:  Login to Dockerhub
+      run:  |
+        echo "${{ secrets.DOCKERHUB_PASS }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+    - name: Push Image to Dockerhub
+      run:  |
+        docker push mosesade/webapp-safe-vote:${{ env.SHORT_SHA }
+      
+     
