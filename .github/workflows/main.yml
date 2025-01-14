@@ -62,8 +62,8 @@ jobs:
         run:  |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote failed!!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
       - name: Run End-to-End Tests
-      run: |
-        pytest --sut-url=http://${{ secrets.SUT_IP_ADDRESS }}:15550 --test-logs tests/logs/
+        run: |
+          pytest --sut-url=http://${{ secrets.SUT_IP_ADDRESS }}:15550 --test-logs tests/logs/
   
       
      
