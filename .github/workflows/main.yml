@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on:  ubuntu-latest
     steps:
       - name: Checkout code from bitbucket
         uses: actions/checkout@v2
@@ -25,5 +25,29 @@ jobs:
       - name: Push Image to Dockerhub
         run:  |
           docker push mosesade/webapp-safe-vote:${{ env.SHORT_SHA }}
+
+  deploy:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Deploy Safe vote
+        run:  |
+          aws ecs update-service --cluster safevote-cluster --service safevote-service
+
+  validate:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Simple smoke test
+        run:  |
+          curl -f https:safevote.fi/health || exit 1
+      - name: Notification on Successful deployment
+        if: success()
+        run:  |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote completed and successfully!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
+      - name: Notificationupon failure
+        if: failure()
+        run:  |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote failed!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
+
+
       
      
