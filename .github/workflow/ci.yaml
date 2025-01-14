@@ -5,8 +5,8 @@ name: Safe Vote Pipeline
 on:
   push:
     branches:
-      - main
-      
+      - main  # main branch
+
 jobs:
   build:
     runs-on: ubuntu-latest
