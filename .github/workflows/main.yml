@@ -42,11 +42,11 @@ jobs:
       - name: Notification on Successful deployment
         if: success()
         run:  |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote completed and successfully!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote completed and successfully!!!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
       - name: Notificationupon failure
         if: failure()
         run:  |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote failed!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote failed!!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
 
 
       
