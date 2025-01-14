@@ -52,6 +52,7 @@ jobs:
     runs-on:  ubuntu-latest
     steps:
       - name: Set SSH access
+        use:  ssh-agent@v0.5.2
         with:
           ssh-private-key:  ${{ secrets.SSH_PRIVATE_KEY }}
       - name:  Download latest Backend Build
