@@ -48,6 +48,26 @@ jobs:
         run:  |
           curl -X POST -H 'Content-type: application/json' --data '{"text":"Deployment of SafeVote failed!!"}' https://hooks.slack.com/services/BBBB/AAAA/CCCC
 
+  deploy_backend:
+    runs-on:  ubuntu-latest
+    steps:
+      - name: Set SSH access
+        with:
+          ssh-private-key:  ${{ secrets.SSH_PRIVATE_KEY }}
+      - name:  Download latest Backend Build
+        run:  |
+          wget ${{ secrets.BACKEND_BUILD_URL }} -O latest-backend.tar.gz
+      - name: Install latest backend on the server
+        run:  |
+          rm -rf /path/to/old/backend
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SUT_SSH_USER }}@$SUT_IP_ADDRESS << 'EOF'
+            tar -xzvf latest-backend.tar.gz
+            systemctl restart backend-service
+            exit
+          EOF
+      - name: Verify Availability of Backend
+        run:  |
+          curl --silent --fail $SUT_IP_ADDRESS:15550/health || exit 1
 
       
      
