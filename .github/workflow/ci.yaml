@@ -24,6 +24,6 @@ jobs:
           echo "${{ secrets.DOCKERHUB_PASS }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
       - name: Push Image to Dockerhub
         run:  |
-          docker push mosesade/webapp-safe-vote:${{ env.SHORT_SHA }
+          docker push mosesade/webapp-safe-vote:${{ env.SHORT_SHA }}
       
      
