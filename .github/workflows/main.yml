@@ -63,7 +63,7 @@ jobs:
       - name: Install latest backend on the server
         run:  |
           rm -rf /path/to/old/backend
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SUT_SSH_USER }}@$SUT_IP_ADDRESS << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SUT_SSH_USER }}@$SUT_IP_ADDRESS << EOF
             tar -xzvf latest-backend.tar.gz
             systemctl restart backend-service
             exit
